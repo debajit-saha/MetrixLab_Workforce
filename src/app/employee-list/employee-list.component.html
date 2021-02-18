@@ -1,0 +1,33 @@
+<ng-container *ngIf="employeeResponse?.data">
+    <div class="row">
+        <div class="col">
+            <span class="float-right">
+                <h5 style="color: #573B76;">Total of <span style="color: indianred;">{{employeeResponse.total}}
+                    </span>employees
+                </h5>
+            </span>
+        </div>
+    </div>
+
+    <div class="row">
+        <ng-container *ngFor="let employee of employeeResponse.data; let i = index;">
+            <div class="col-sm-3" style="margin-bottom: 40px;">
+                <div class="card cursor-pointer">
+                    <img [src]="employee.avatar" class="card-img-top" alt="{{employee.avatar}}">
+                    <div class="card-footer" style="text-align: center;">
+                        <p class="card-text"> {{employee.first_name}} {{employee.last_name}} </p>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+    </div>
+
+    <div class="row mb-5">
+        <div class="col">
+            <span class="float-right">
+                <button class="btn btn-secondary mr-2">Previous</button>
+                <button class="btn btn-primary">Next</button>
+            </span>
+        </div>
+    </div>
+</ng-container>

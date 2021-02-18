@@ -1,1 +1,20 @@
 /* You can add global styles to this file, and also import other style files */
+@import "~bootstrap/dist/css/bootstrap.min.css";
+
+body {
+  font-size: 14px;
+  color: #333333;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.no-outline {
+  outline: none;
+}
+
+#topbar ul li.active > a {
+  color: #fff;
+  background: #3b4b57;
+}
