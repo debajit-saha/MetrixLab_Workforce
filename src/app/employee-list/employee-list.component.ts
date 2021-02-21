@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { IEmployeeResponse } from '../models/employee';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { IEmployeeListDetails } from '../models/employee';
 import { EmployeeService } from '../services/employee/employee.service';
 
 @Component({
@@ -7,14 +9,47 @@ import { EmployeeService } from '../services/employee/employee.service';
   templateUrl: './employee-list.component.html',
   styleUrls: ['./employee-list.component.scss']
 })
-export class EmployeeListComponent implements OnInit {
-  public employeeResponse: IEmployeeResponse = null;
-  constructor(private employeeSvc: EmployeeService) { }
+export class EmployeeListComponent implements OnInit, OnDestroy {
+  public employeeListDetails: IEmployeeListDetails;
+  private subscription: Subscription;
+  public currentPage = 1;
+
+  constructor(
+    private employeeSvc: EmployeeService,
+    private router: Router) { }
 
   ngOnInit(): void {
-    this.employeeSvc.getAllEmployees(1).subscribe((response: IEmployeeResponse) => {
-      this.employeeResponse = response;
-      console.log(response);
-    });
+    this.getEmployeeListDetails();
+  }
+
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
+
+  private getEmployeeListDetails(pageChanged = false) {
+    if (!this.employeeSvc.employeeListDetails || pageChanged) {
+      this.subscription = this.employeeSvc.getAllEmployees(this.currentPage).subscribe((response: IEmployeeListDetails) => {
+        this.employeeListDetails = response;
+        this.employeeSvc.employeeListDetails = response;
+      });
+    } else {
+      this.employeeListDetails = this.employeeSvc.employeeListDetails;
+    }
+  }
+
+  public employeeSelected(id: number) {
+    this.router.navigate(['/edit-employee', id]);
+  }
+
+  public previousPage() {
+    this.currentPage -= 1;
+    this.getEmployeeListDetails(true);
+  }
+
+  public nextPage() {
+    this.currentPage += 1;
+    this.getEmployeeListDetails(true);
   }
 }

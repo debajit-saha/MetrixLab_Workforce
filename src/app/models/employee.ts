@@ -1,4 +1,4 @@
-export interface IEmployeeResponse {
+export interface IEmployeeListDetails {
     data: IEmployee[];
     page: number;
     per_page: number;
@@ -7,7 +7,7 @@ export interface IEmployeeResponse {
 }
 
 export interface IEmployee {
-    id: number;
+    id?: number;
     first_name: string;
     last_name: string;
     email: string;

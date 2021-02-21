@@ -1,1 +1,60 @@
-<p>add-edit-employee works!</p>
+<div class="row">
+    <div class="col">
+        <div class="card" *ngIf="formControls && formControls.photo.value">
+            <img [src]="formControls.photo.value" class="card-img-top" alt="{{formControls.photo.value}}">
+        </div>
+    </div>
+
+    <div class="col">
+        <form *ngIf="employeeForm" [formGroup]="employeeForm">
+            <div class="form-group">
+                <label for="firstName"><span class="text-danger">*</span> First Name</label>
+                <input type="text" class="form-control" id="firstName" placeholder="Enter first name"
+                    formControlName="firstName" [ngClass]="{
+              'is-invalid': formSubmitted && formControls.firstName.errors
+            }" maxlength="200" />
+            </div>
+
+            <div class="form-group">
+                <label for="lastName"><span class="text-danger">*</span> Last Name</label>
+                <input type="text" class="form-control" id="lastName" placeholder="Enter last name"
+                    formControlName="lastName" [ngClass]="{
+              'is-invalid': formSubmitted && formControls.lastName.errors
+            }" maxlength="200" />
+            </div>
+
+            <div class="form-group">
+                <label for="emailId"><span class="text-danger">*</span> Email ID</label>
+                <input type="text" class="form-control" id="emailId" placeholder="Enter email id"
+                    formControlName="emailId" [ngClass]="{
+              'is-invalid': formSubmitted && formControls.emailId.errors
+            }" maxlength="200" />
+            </div>
+
+            <div class="form-group">
+                <label for="photo"><span class="text-danger">*</span> Upload Photo</label>
+                <input type="text" class="form-control" id="photo" placeholder="Enter photo url" formControlName="photo"
+                    [ngClass]="{'is-invalid': formSubmitted && formControls.photo.errors}" />
+            </div>
+
+            <div class="form-group" style="margin-top: 30px;">
+                <button type="button" *ngIf="!employeeId" class="btn btn-primary" [disabled]="employeeForm.disabled"
+                    (click)="addOrUpdateEmployee()">
+                    Add Employee
+                </button>
+
+                <ng-container *ngIf="employeeId">
+                    <button type="button" class="btn btn-warning" style="margin-right: 10px;"
+                        [disabled]="employeeForm.disabled" (click)="addOrUpdateEmployee()">
+                        Update Employee
+                    </button>
+                    <button type="button" class="btn btn-danger" [disabled]="employeeForm.disabled"
+                        (click)="deleteEmployee()">
+                        Delete
+                    </button>
+                </ng-container>
+                <strong><i> {{message}} </i></strong>
+            </div>
+        </form>
+    </div>
+</div>
